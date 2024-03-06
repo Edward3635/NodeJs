@@ -32,14 +32,24 @@ export const authSlice = createSlice({
 				state.isAuth = true
 				state.user = action.payload
 				state.isLoading = false
+				state.error = ''
 			})
 			.addCase(login.pending, state => {
 				state.isLoading = true
+			})
+			.addCase(login.rejected, (state, action) => {
+				state.isLoading = false
+				if (typeof action.payload === 'string') {
+					state.error = action.payload
+				} else {
+					state.error = 'Unknown error occurred'
+				}
 			})
 			.addCase(registration.fulfilled, (state, action: PayloadAction<IUser>) => {
 				state.isAuth = true
 				state.user = action.payload
 				state.isLoading = false
+				state.error = ''
 			})
 			.addCase(registration.pending, state => {
 				state.isLoading = true
@@ -80,7 +90,10 @@ export const login = createAsyncThunk('login', async (payload: ILoginPayload, th
 
 		return response.data.user
 	} catch (e: any) {
-		return thunkAPI.rejectWithValue(e.response?.data?.message)
+		if (typeof e.response?.data?.message === 'string') {
+			return thunkAPI.rejectWithValue(e.response?.data?.message)
+		}
+		return thunkAPI.rejectWithValue('Error')
 	}
 })
 

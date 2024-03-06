@@ -13,6 +13,6 @@ const setupStore = () => {
 
 export type ReducersState = ReturnType<typeof reducers>;
 export type AppStore = ReturnType<typeof setupStore>;
-export type appDispatch = AppStore['dispatch'];
+export type AppDispatch = AppStore['dispatch'];
 
 export default setupStore;
