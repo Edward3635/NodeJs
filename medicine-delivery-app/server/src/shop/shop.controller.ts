@@ -9,7 +9,6 @@ export class ShopController {
 	@Post()
 	@UsePipes(new ValidationPipe())
 	createShop(@Body() shopDto: CreateShopDto) {
-		// return this.shopService.createShop(shopDto)
-		console.log(shopDto)
+		return this.shopService.createShop(shopDto)
 	}
 }

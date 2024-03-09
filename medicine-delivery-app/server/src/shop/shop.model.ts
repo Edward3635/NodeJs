@@ -6,7 +6,7 @@ import { HydratedDocument } from 'mongoose'
 @Schema()
 export class Shop {
 	@Prop({ required: true })
-	shopName: string
+	name: string
 }
 
 export const ShopSchema = SchemaFactory.createForClass(Shop)
