@@ -1,0 +1,12 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { HydratedDocument } from 'mongoose'
+
+// export type ShopDocument = HydratedDocument<Shop>;
+
+@Schema()
+export class Shop {
+	@Prop({ required: true })
+	shopName: string
+}
+
+export const ShopSchema = SchemaFactory.createForClass(Shop)
