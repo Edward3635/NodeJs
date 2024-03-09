@@ -1,4 +1,5 @@
 import UserModel from '../models/user-model.js'
+import bcrypt from 'bcryptjs'
 import { v4 as uuidv4 } from 'uuid'
 import mailService from './mail-service.js'
 import tokenService from './token-service.js'
@@ -12,7 +13,7 @@ class UserService {
 		if (candidate) {
 			throw ApiError.BadRequest(`User with email ${email} already exist`)
 		}
-		const hashPassword = await bcryptjs.hash(password, 3)
+		const hashPassword = await bcrypt.hash(password, 3)
 		const activationLink = uuidv4()
 		const user = await UserModel.create({ email, password: hashPassword, activationLink })
 		await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
@@ -34,7 +35,7 @@ class UserService {
 		if (!user) {
 			throw ApiError.BadRequest('Wrong login or password')
 		}
-		const isPassEquals = await bcryptjs.compare(password, user.password)
+		const isPassEquals = await bcrypt.compare(password, user.password)
 		if (!isPassEquals) {
 			throw ApiError.BadRequest('Wrong login or password')
 		}
