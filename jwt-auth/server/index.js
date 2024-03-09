@@ -23,8 +23,10 @@ app.use(errorMiddleware)
 
 const start = async () => {
 	try {
-		await mongoose.connect(process.env.DB_URL)
-		app.listen(PORT, () => console.log(`Server started on PORT = ${PORT}`))
+		await mongoose.connect(
+			'mongodb+srv://root:rootAdmin@authorization.8szgfti.mongodb.net/?retryWrites=true&w=majority&appName=authorization'
+		)
+		app.listen(PORT, () => console.log(`Server started on PORT =${process.env.DB_URL}`))
 	} catch (error) {
 		console.log(error)
 	}
