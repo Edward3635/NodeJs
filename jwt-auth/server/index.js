@@ -26,7 +26,7 @@ const start = async () => {
 		await mongoose.connect(
 			'mongodb+srv://root:rootAdmin@authorization.8szgfti.mongodb.net/?retryWrites=true&w=majority&appName=authorization'
 		)
-		app.listen(PORT, () => console.log(`Server started on PORT = ${PORT}`))
+		app.listen(PORT, () => console.log(`Server started on PORT = ${process.env.DB_URL}`))
 	} catch (error) {
 		console.log(error)
 	}

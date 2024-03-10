@@ -56,13 +56,12 @@ class UserController {
 			next(e)
 		}
 	}
-	async getUsers(req, res, next) {
+	async 	getUsers(req, res, next) {
 		try {
 			const users = await userService.getAllUser()
 			return res.json(users)
 		} catch (e) {
-			return process.env.DB_URL
-			// next(e)
+			next(e)
 		}
 	}
 }
