@@ -13,7 +13,7 @@ export class ShopController {
 	}
 
 	@Get()
-	getAll(@Body() shopDto: CreateShopDto) {
+	getAll() {
 		return this.shopService.getAllShops()
 	}
 }
