@@ -1,6 +1,6 @@
-import { CreateShopDto } from 'src/dto/shop.dto'
+import { CreateShopDto } from 'src/dto/createShopDto.dto'
 import { ShopService } from './shop.service'
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common'
 
 @Controller('shops')
 export class ShopController {
@@ -12,8 +12,19 @@ export class ShopController {
 		return this.shopService.createShop(shopDto)
 	}
 
+	@Post('/remove')
+	removeShop(@Body() {id}:{id:string}) {
+		return this.shopService.removeShop(id)
+	}
+
 	@Get()
 	getAll() {
 		return this.shopService.getAllShops()
 	}
+
+	
+	@Get('/:id')
+  async getProductsByShopId(@Param('id') shopId: string) {
+    return this.shopService.getProductsByShop(shopId);
+  }
 }

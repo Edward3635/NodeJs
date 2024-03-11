@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import cl from '../style/App.module.scss'
 
 function App() {
-	return <div className={cl.app}>Hello</div>
+	const [data, setData] = useState(null)
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch('https://localhost:5000/shops')
+				const jsonData = await response.json()
+				setData(jsonData)
+				console.log(jsonData)
+				setLoading(false)
+			} catch (error) {
+				console.error('Error fetching data:', error)
+				setLoading(false)
+			}
+		}
+
+		fetchData()
+	}, [])
+	return <div className={cl.app}></div>
 }
 
 export default App
