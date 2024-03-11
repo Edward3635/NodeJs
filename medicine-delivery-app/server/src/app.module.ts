@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { ShopModule } from './shop/shop.module'
-import { ProductService } from './product/product.service';
-import { ProductModule } from './product/product.module';
+import { ProductModule } from './product/product.module'
 import 'dotenv/config'
 
 @Module({

@@ -8,7 +8,7 @@ function App() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetch('https://localhost:5000/shops')
+				const response = await fetch('https://nodejs-production-9965.up.railway.app/shops')
 				const jsonData = await response.json()
 				setData(jsonData)
 				console.log(jsonData)
