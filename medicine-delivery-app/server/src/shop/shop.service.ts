@@ -18,7 +18,7 @@ export class ShopService {
 	}
 
 	async getAllShops() {
-		return this.shopModel.find()
+		return this.shopModel.find({}, 'name _id')
 	}
 	async getProductsByShop(shopId: string) {
 		const shop = await this.shopModel.findById(shopId).populate('products')
