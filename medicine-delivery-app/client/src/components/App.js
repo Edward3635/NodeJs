@@ -1,27 +1,14 @@
-import React, { useEffect, useState } from 'react'
 import cl from '../style/App.module.scss'
+import Header from './Header/Header'
+import Main from './Main/Main'
 
 function App() {
-	const [data, setData] = useState(null)
-	const [loading, setLoading] = useState(true)
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await fetch('https://nodejs-production-9965.up.railway.app/shops')
-				const jsonData = await response.json()
-				setData(jsonData)
-				console.log(jsonData)
-				setLoading(false)
-			} catch (error) {
-				console.error('Error fetching data:', error)
-				setLoading(false)
-			}
-		}
-
-		fetchData()
-	}, [])
-	return <div className={cl.app}></div>
+	return (
+		<div className={cl.app}>
+			<Header/>
+			<Main/>
+		</div>
+	)
 }
 
 export default App
