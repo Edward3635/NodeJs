@@ -1,0 +1,46 @@
+.main {
+	display: flex;
+	gap: 35px;
+	padding-bottom: 25px;
+
+	.aside {
+		flex-grow: 1;
+		max-width: 240px;
+		overflow-y: auto;
+		min-height: 550px;
+		padding: 20px 0;
+		border: 2px solid gray;
+		border-radius: 7px;
+		font-size: 20px;
+
+		.asideTitle {
+			text-align: center;
+			font-weight: 600;
+			margin-bottom: 10px;
+		}
+
+		.shopList {
+			display: grid;
+			justify-content: center;
+			gap: 15px;
+			grid-template-columns: repeat(1, 0.65fr);
+		}
+	}
+	.secProducts {
+		flex-grow: 1;
+		overflow-y: auto;
+		max-width: 945px;
+		max-height: 550px;
+		.productList {
+			display: grid;
+			min-height: 550px;
+			align-items: baseline;
+			justify-content: space-between;
+			row-gap: 20px;
+			grid-template-columns: repeat(3, 0fr);
+			border: 2px solid grey;
+			border-radius: 7px;
+			padding: 30px 60px;
+		}
+	}
+}

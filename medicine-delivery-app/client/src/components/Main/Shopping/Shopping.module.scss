@@ -1,0 +1,77 @@
+.formContainer {
+	padding-top: 50px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	.personalData {
+		max-width: 500px;
+		padding: 25px 100px 30px 25px;
+		border: 2px solid grey;
+		border-radius: 7px;
+		.input {
+			margin: 15px 0;
+			width: 100%;
+			border: 1px solid rgb(208, 207, 207);
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 3px;
+		}
+		.errLabel {
+			display: flex;
+			gap: 3px;
+		}
+
+		.error {
+			color: red;
+		}
+
+		.inputError {
+			border: 1px solid red;
+		}
+	}
+	.emptyProducts {
+		text-align: center;
+	}
+	.products {
+		border: 2px solid gray;
+		width: fit-content;
+		justify-content: center;
+		border-radius: 7px;
+		padding: 15px 20px;
+		max-height: 450px;
+		overflow-y: auto;
+		display: grid;
+		gap: 20px;
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
+
+.enabled {
+	&:hover {
+		transform: scale(1.03);
+		color: #000;
+	}
+	&:active {
+		transform: scale(0.98);
+	}
+}
+.disabled {
+	cursor: not-allowed;
+}
+.total {
+	padding: 0 100px;
+	display: flex;
+	margin-top: 20px;
+	justify-content: flex-end;
+	gap: 80px;
+	align-items: center;
+	h3 {
+		font-size: 20px;
+	}
+}
+.btn {
+	padding: 10px 15px;
+	font-size: 16px;
+	border-radius: 10px;
+	background-color: #1890ff;
+	color: #fff;
+}
