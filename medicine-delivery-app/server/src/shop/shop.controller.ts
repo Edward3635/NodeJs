@@ -1,6 +1,7 @@
 import { CreateShopDto } from 'src/dto/createShopDto.dto'
 import { ShopService } from './shop.service'
 import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common'
+import { CreateOrderDto } from 'src/dto/CreateOrderDto.tdo'
 
 @Controller('shops')
 export class ShopController {
@@ -13,8 +14,12 @@ export class ShopController {
 	}
 
 	@Post('/remove')
-	removeShop(@Body() {id}:{id:string}) {
+	removeShop(@Body() { id }: { id: string }) {
 		return this.shopService.removeShop(id)
+	}
+	@Post('/order')
+	async createOrder(@Body() dto: CreateOrderDto) {
+		return this.shopService.createOrder(dto)
 	}
 
 	@Get()
@@ -22,9 +27,8 @@ export class ShopController {
 		return this.shopService.getAllShops()
 	}
 
-	
 	@Get('/:id')
-  async getProductsByShopId(@Param('id') shopId: string) {
-    return this.shopService.getProductsByShop(shopId);
-  }
+	async getProductsByShopId(@Param('id') shopId: string) {
+		return this.shopService.getProductsByShop(shopId)
+	}
 }

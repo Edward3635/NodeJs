@@ -14,8 +14,6 @@ export class ProductService {
 
 	async createProduct({ shopId, ...dto }: CreateProductDto) {
 		const findShop = await this.shopModel.findById(shopId)
-		console.log(shopId)
-		console.log(dto)
 
 		if (!findShop) throw new HttpException('Shop not found', 404)
 		const newProduct = new this.productModel(dto)
