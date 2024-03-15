@@ -6,6 +6,7 @@ import cl from './Shopping.module.scss'
 import CartItem from './CartItem/CartItem'
 import { calcTotal, submitForm } from '../../../redux/shoppingSlice'
 import { useNavigate } from 'react-router-dom'
+import { setActivePage } from '../../../redux/appSlice'
 
 const Shopping = () => {
 	const cart = useSelector(state => state.shopping.shoppingCart)
@@ -25,6 +26,7 @@ const Shopping = () => {
 	const handleSubmit = values => {
 		dispatch(submitForm({ userData: values, order: cart }))
 		navigate('/')
+		dispatch(setActivePage('Shop'))
 	}
 
 	useEffect(() => {

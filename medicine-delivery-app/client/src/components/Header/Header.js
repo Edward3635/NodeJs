@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cl from './Header.module.scss'
 import { NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setActivePage } from '../../redux/appSlice'
 
 const Header = () => {
-	const [activeLink, setActiveLink] = useState('Shop')
+	const activeLink = useSelector(state => state.app.activePage)
+	const dispatch = useDispatch()
 	return (
 		<nav className={cl.header}>
 			<ul className={cl.headerList}>
@@ -11,7 +14,7 @@ const Header = () => {
 					<NavLink
 						to='/'
 						onClick={() => {
-							setActiveLink('Shop')
+							dispatch(setActivePage('Shop'))
 						}}
 					>
 						Shop
@@ -22,7 +25,7 @@ const Header = () => {
 					<NavLink
 						to='/shopping'
 						onClick={() => {
-							setActiveLink('Shopping')
+							dispatch(setActivePage('Shopping'))
 						}}
 					>
 						Shopping Cart
@@ -33,7 +36,7 @@ const Header = () => {
 					<NavLink
 						to='/History'
 						onClick={() => {
-							setActiveLink('History')
+							dispatch(setActivePage('History'))
 						}}
 					>
 						History

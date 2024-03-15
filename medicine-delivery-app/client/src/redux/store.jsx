@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import drugStoreSlice from './drugStoreSlice';
 import shoppingSlice from './shoppingSlice';
+import appSlice from './appSlice';
 
 const reducers = combineReducers({
+	app: appSlice,
 	drugStore: drugStoreSlice,
 	shopping:shoppingSlice
 });

@@ -37,6 +37,7 @@ export const shoppingSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(submitForm.fulfilled, state => {
+				state.shoppingCart = []
 				state.isLoading = false
 				state.error = ''
 			})
@@ -55,10 +56,8 @@ export const { addProductToCart, incrementQuantity, decrementQuantity, calcTotal
 export const submitForm = createAsyncThunk('submitForm', async (payload, thunkAPI) => {
 	try {
 		const response = await drugStoreAPI.submit(payload)
-		console.log(response)
 		// localStorage.setItem('orderData', response.data.accessToken)
-
-		return response.data.user
+		return response
 	} catch (e) {
 		return thunkAPI.rejectWithValue('Error')
 	}
