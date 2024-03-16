@@ -14,19 +14,27 @@ export const shoppingSlice = createSlice({
 	reducers: {
 		addProductToCart(state, action) {
 			const existingIndex = state.shoppingCart.findIndex(item => item.id === action.payload.id)
-			if (existingIndex === -1) state.shoppingCart.push(action.payload)
+			if (existingIndex !== -1) {
+				state.shoppingCart[existingIndex].quantity++
+			} else {
+				state.shoppingCart.push(action.payload)
+			}
 		},
 		incrementQuantity(state, action) {
 			const findProduct = state.shoppingCart.find(
 				product => product.name.toLowerCase() === action.payload.toLowerCase()
 			)
-			++findProduct.quantity
+			findProduct.quantity++
 		},
 		decrementQuantity(state, action) {
 			const findProduct = state.shoppingCart.find(
 				product => product.name.toLowerCase() === action.payload.toLowerCase()
 			)
-			if (findProduct.quantity > 0) --findProduct.quantity
+			if (findProduct.quantity > 0) findProduct.quantity--
+			if (findProduct.quantity === 0) {
+				const index = state.shoppingCart.indexOf(findProduct)
+				state.shoppingCart.splice(index, 1)
+			}
 		},
 		calcTotal(state) {
 			state.totalPrice = state.shoppingCart.reduce((total, product) => {
@@ -59,6 +67,6 @@ export const submitForm = createAsyncThunk('submitForm', async (payload, thunkAP
 		// localStorage.setItem('orderData', response.data.accessToken)
 		return response
 	} catch (e) {
-		return thunkAPI.rejectWithValue('Error')
+		return thunkAPI.rejectWithValue(e.response.data)
 	}
 })

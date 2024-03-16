@@ -8,6 +8,8 @@ interface IOrderData {
 	name: string
 	price: number
 	quantity: number
+	shopId: string
+	shopName: string
 }
 
 @Schema()
@@ -25,7 +27,7 @@ export class Order {
 	address: string
 
 	@Prop({ type: [{ type: Object, _id: false }] })
-	order: IOrderData[]
+		order: IOrderData[]
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order)

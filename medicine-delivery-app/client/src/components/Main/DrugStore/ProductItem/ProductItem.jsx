@@ -3,7 +3,7 @@ import cl from './ProductItem.module.scss'
 import { useDispatch } from 'react-redux'
 import { addProductToCart } from '../../../../redux/shoppingSlice'
 
-const ProductItem = ({ name, price, id }) => {
+const ProductItem = ({ name, price, id, shop }) => {
 	const dispatch = useDispatch()
 	return (
 		<li className={cl.item}>
@@ -14,7 +14,7 @@ const ProductItem = ({ name, price, id }) => {
 				<button
 					className={cl.btn}
 					onClick={() => {
-						dispatch(addProductToCart({ id, name, price, quantity: 1 }))
+						dispatch(addProductToCart({ id, name, price, quantity: 1, shopId: shop.id, shopName: shop.name }))
 					}}
 				>
 					Add to cart

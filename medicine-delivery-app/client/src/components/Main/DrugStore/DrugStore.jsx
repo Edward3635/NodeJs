@@ -11,21 +11,20 @@ const DrugStore = () => {
 	const products = useSelector(state => state.drugStore.shopProducts)
 	const isLoading = useSelector(state => state.drugStore.isLoading)
 	const isLoadingProducts = useSelector(state => state.drugStore.isLoadingProducts)
-	const activeShop = useSelector(state => state.drugStore.activeShop)
-
+	const currentShop = useSelector(state => state.drugStore.currentShop)
 	const shopList = store.map(shop => (
-		<ShopListItem key={shop.name} id={shop._id} name={shop.name} active={activeShop} />
+		<ShopListItem key={shop.name} id={shop._id} name={shop.name} currentShopId={currentShop.id} />
 	))
 	const productList = products.map(product => (
-		<ProductItem key={product._id} name={product.name} id={product._id} price={product.price} />
+		<ProductItem key={product._id} name={product.name} shop={currentShop} id={product._id} price={product.price} />
 	))
 
 	useEffect(() => {
 		if (store.length === 0) dispatch(getShops())
 	}, [store])
 	useEffect(() => {
-		dispatch(getProductsByShop(activeShop))
-	}, [activeShop])
+		dispatch(getProductsByShop(currentShop.id))
+	}, [currentShop.id])
 
 	if (isLoading) return <div>Loading...</div>
 

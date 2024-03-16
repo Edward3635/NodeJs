@@ -15,7 +15,7 @@ export const drugStoreAPI = {
 		return response.data
 	},
 	async submit(obj) {
-		const response = await instance.post(`shops/order`, { ...obj })
+		const response = await instance.post(`orders`, { ...obj })
 		return response.data
 	}
 }

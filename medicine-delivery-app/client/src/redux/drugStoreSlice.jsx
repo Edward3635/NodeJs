@@ -4,7 +4,7 @@ import { drugStoreAPI } from '../api/api'
 const initialState = {
 	shops: [],
 	shopProducts: [],
-	activeShop: '',
+	currentShop: { id: '', name: '' },
 	isLoading: false,
 	isLoadingProducts: false,
 	error: ''
@@ -20,15 +20,17 @@ export const drugStoreSlice = createSlice({
 		setError(state, action) {
 			state.error = action.payload
 		},
-		updateActiveShop(state, action) {
-			state.activeShop = action.payload
+		updateCurrentShop(state, { payload }) {
+			state.currentShop.name = payload.name
+			state.currentShop.id = payload.id
 		}
 	},
 	extraReducers: builder => {
 		builder
 			.addCase(getShops.fulfilled, (state, action) => {
 				state.shops = action.payload
-				state.activeShop = action.payload[0]._id
+				state.currentShop.id = action.payload[0]._id
+				state.currentShop.name = action.payload[0].name
 				state.isLoading = false
 				state.error = ''
 			})
@@ -54,7 +56,7 @@ export const drugStoreSlice = createSlice({
 	}
 })
 export default drugStoreSlice.reducer
-export const { setShops, setError, updateActiveShop } = drugStoreSlice.actions
+export const { setShops, setError, updateCurrentShop } = drugStoreSlice.actions
 
 export const getShops = createAsyncThunk('getShops', async (_, thunkAPI) => {
 	try {
@@ -62,21 +64,15 @@ export const getShops = createAsyncThunk('getShops', async (_, thunkAPI) => {
 		// localStorage.setItem('shops', response.data)
 		return response
 	} catch (e) {
-		if (e) {
-			return thunkAPI.rejectWithValue(e)
-		}
-		return thunkAPI.rejectWithValue('Error')
+		return thunkAPI.rejectWithValue(e.response.data)
 	}
 })
 
 export const getProductsByShop = createAsyncThunk('getProductsByShop', async (shopId, thunkAPI) => {
 	try {
-		const response = await drugStoreAPI.getProductsByShop(shopId)
+		const response = await drugStoreAPI.getProductsByShop(`${shopId}`)
 		return response
 	} catch (e) {
-		if (e) {
-			return thunkAPI.rejectWithValue(e)
-		}
-		return thunkAPI.rejectWithValue('Error')
+		return thunkAPI.rejectWithValue(e.response.data)
 	}
 })

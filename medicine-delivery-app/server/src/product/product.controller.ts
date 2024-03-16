@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common'
 import { ProductService } from './product.service'
-import { CreateProductDto } from 'src/dto/createProductDto.dto'
+import { CreateProductDto } from 'src/product/dto/createProductDto.dto'
 
 @Controller('products')
 export class ProductController {
@@ -15,5 +15,4 @@ export class ProductController {
 	getAll() {
 		return this.productService.getAllProducts()
 	}
-
 }

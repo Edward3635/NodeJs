@@ -1,16 +1,16 @@
 import React from 'react'
 import cl from './ShopListItem.module.scss'
 import { useDispatch } from 'react-redux'
-import { updateActiveShop } from '../../../redux/drugStoreSlice'
+import { updateCurrentShop } from '../../../redux/drugStoreSlice'
 
-const ShopListItem = ({ name, active, id }) => {
+const ShopListItem = ({ name, currentShopId, id }) => {
 	const dispatch = useDispatch()
 	return (
 		<li
 			onClick={() => {
-				if (id !== active) dispatch(updateActiveShop(id))
+				if (id !== currentShopId) dispatch(updateCurrentShop({ id, name }))
 			}}
-			className={`${cl.listItem} ${active === id && cl.active}`}
+			className={`${cl.listItem} ${currentShopId === id && cl.active}`}
 		>
 			<div>{name}</div>
 		</li>
