@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import mongoose, { HydratedDocument } from 'mongoose'
-import { Product } from 'src/product/product.model'
+import { HydratedDocument } from 'mongoose'
 
 export type OrderDocument = HydratedDocument<Order>
 
@@ -13,7 +12,7 @@ interface IOrderData {
 
 @Schema()
 export class Order {
-	@Prop({ required: false, unique: false })
+	@Prop({ required: true })
 	name: string
 
 	@Prop({ required: true })

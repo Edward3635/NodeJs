@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const instance = axios.create({
 	baseURL: 'https://nodejs-production-9965.up.railway.app/'
+	// baseURL:'https://nodejs-production-9965.up.railway.app/'
 })
 
 export const drugStoreAPI = {
