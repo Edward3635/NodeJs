@@ -4,6 +4,7 @@ import { getProductsByShop, getShops } from '../../../redux/drugStoreSlice'
 import cl from './DrugStore.module.scss'
 import ShopListItem from '../../Common/ShopListItem/ShopListItem'
 import ProductItem from './ProductItem/ProductItem'
+import { setActivePage } from '../../../redux/appSlice'
 
 const DrugStore = () => {
 	const dispatch = useDispatch()
@@ -13,18 +14,22 @@ const DrugStore = () => {
 	const isLoadingProducts = useSelector(state => state.drugStore.isLoadingProducts)
 	const currentShop = useSelector(state => state.drugStore.currentShop)
 	const shopList = store.map(shop => (
-		<ShopListItem key={shop.name} id={shop._id} name={shop.name} currentShopId={currentShop.id} />
+		<ShopListItem key={shop.name} id={shop._id} name={shop.name} currentShop={currentShop} />
 	))
 	const productList = products.map(product => (
 		<ProductItem key={product._id} name={product.name} shop={currentShop} id={product._id} price={product.price} />
 	))
 
 	useEffect(() => {
+		dispatch(setActivePage('Shop'))
+	}, [])
+
+	useEffect(() => {
 		if (store.length === 0) dispatch(getShops())
 	}, [store])
 	useEffect(() => {
-		dispatch(getProductsByShop(currentShop.id))
-	}, [currentShop.id])
+		dispatch(getProductsByShop(currentShop))
+	}, [currentShop])
 
 	if (isLoading) return <div>Loading...</div>
 

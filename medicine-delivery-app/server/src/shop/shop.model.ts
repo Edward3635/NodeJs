@@ -4,7 +4,7 @@ import { Product } from 'src/product/product.model'
 
 export type ShopsDocument = HydratedDocument<Shop>
 
-@Schema()
+@Schema({ strict: 'throw' })
 export class Shop {
 	@Prop({ required: true, unique: true })
 	name: string

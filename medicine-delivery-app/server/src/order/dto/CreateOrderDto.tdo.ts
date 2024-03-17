@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { IsNotEmpty, IsNumber, IsString, ValidateNested } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsPhoneNumber, IsString, ValidateNested } from 'class-validator'
 
 class UserData {
 	@IsNotEmpty()
@@ -10,6 +10,7 @@ class UserData {
 	email: string
 	@IsNotEmpty()
 	@IsString()
+	@IsPhoneNumber()
 	phone: string
 	@IsNotEmpty()
 	@IsString()
@@ -19,22 +20,13 @@ class UserData {
 class Order {
 	@IsNotEmpty()
 	@IsString()
-	id: string
-	@IsNotEmpty()
-	@IsString()
-	name: string
-	@IsNotEmpty()
-	@IsNumber()
-	price: number
+	product: string
 	@IsNotEmpty()
 	@IsNumber()
 	quantity: number
 	@IsNotEmpty()
 	@IsString()
-	shopId: string
-	@IsNotEmpty()
-	@IsString()
-	shopName: string
+	shop: string
 }
 
 export class CreateOrderDto {

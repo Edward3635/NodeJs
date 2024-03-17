@@ -4,7 +4,7 @@ import { drugStoreAPI } from '../api/api'
 const initialState = {
 	shops: [],
 	shopProducts: [],
-	currentShop: { id: '', name: '' },
+	currentShop: '',
 	isLoading: false,
 	isLoadingProducts: false,
 	error: ''
@@ -21,16 +21,14 @@ export const drugStoreSlice = createSlice({
 			state.error = action.payload
 		},
 		updateCurrentShop(state, { payload }) {
-			state.currentShop.name = payload.name
-			state.currentShop.id = payload.id
+			state.currentShop = payload
 		}
 	},
 	extraReducers: builder => {
 		builder
 			.addCase(getShops.fulfilled, (state, action) => {
 				state.shops = action.payload
-				state.currentShop.id = action.payload[0]._id
-				state.currentShop.name = action.payload[0].name
+				state.currentShop = action.payload[0]._id
 				state.isLoading = false
 				state.error = ''
 			})

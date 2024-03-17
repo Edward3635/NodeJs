@@ -1,18 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { HydratedDocument } from 'mongoose'
+import mongoose, { HydratedDocument } from 'mongoose'
 
 export type OrderDocument = HydratedDocument<Order>
 
 interface IOrderData {
-	id: string
-	name: string
-	price: number
+	product: mongoose.Schema.Types.ObjectId
 	quantity: number
-	shopId: string
-	shopName: string
+	shop: mongoose.Schema.Types.ObjectId
 }
 
-@Schema()
+@Schema({ strict: 'throw' })
 export class Order {
 	@Prop({ required: true })
 	name: string
@@ -26,8 +23,18 @@ export class Order {
 	@Prop({ required: true })
 	address: string
 
-	@Prop({ type: [{ type: Object, _id: false }] })
-		order: IOrderData[]
+	@Prop({
+		type: [
+			{
+				product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+				quantity: Number,
+				shop: { type: mongoose.Schema.Types.ObjectId, ref: 'Shop' },
+				_id: false
+			}
+		],
+		required: true
+	})
+	order: IOrderData[]
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order)

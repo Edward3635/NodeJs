@@ -14,7 +14,7 @@ const Shopping = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const cartList = cart.map(item => (
-		<CartItem key={item.id} name={item.name} price={item.price} quantity={item.quantity} />
+		<CartItem key={item.product} name={item.name} price={item.price} quantity={item.quantity} />
 	))
 	const initialValues = {
 		name: '',
@@ -24,10 +24,20 @@ const Shopping = () => {
 	}
 
 	const handleSubmit = values => {
-		dispatch(submitForm({ userData: values, order: cart }))
+		const keysToDelete = ['name', 'price']
+		const order = cart.map(obj => {
+			let orderItem = { ...obj }
+			keysToDelete.forEach(key => delete orderItem[key])
+			return orderItem
+		})
+		values.phone = '+38' + values.phone
+		dispatch(submitForm({ userData: values, order }))
 		navigate('/')
 		dispatch(setActivePage('Shop'))
 	}
+	useEffect(() => {
+		dispatch(setActivePage('Shopping'))
+	}, [])
 
 	useEffect(() => {
 		dispatch(calcTotal())
@@ -64,12 +74,15 @@ const Shopping = () => {
 									<label>Phone:</label>
 									{errors.phone && touched.phone ? <div className={cl.error}>{errors.phone}</div> : null}
 								</div>
-								<Field
-									type='tel'
-									name='phone'
-									className={`${cl.input} ${errors.phone && touched.phone ? cl.inputError : null}`}
-									placeholder='Phone'
-								/>
+								<div className={cl.phoneNumberWrapper}>
+									<span>+38</span>
+									<Field
+										type='tel'
+										name='phone'
+										className={`${cl.input} ${errors.phone && touched.phone ? cl.inputError : null}`}
+										placeholder='0995654567'
+									/>
+								</div>
 								<div className={cl.errLabel}>
 									<label>Address:</label>
 									{errors.address && touched.address ? <div className={cl.error}>{errors.address}</div> : null}

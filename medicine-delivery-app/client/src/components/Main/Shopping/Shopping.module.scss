@@ -19,6 +19,19 @@
 			display: flex;
 			gap: 3px;
 		}
+		.phoneNumberWrapper {
+			position: relative;
+			span {
+				position: absolute;
+				top: 27px;
+				left: 10px;
+				color: #6c6c6c;
+				text-decoration: underline;
+			}
+			input {
+				padding-left: 35px;
+			}
+		}
 
 		.error {
 			color: red;

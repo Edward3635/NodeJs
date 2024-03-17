@@ -14,7 +14,7 @@ const ProductItem = ({ name, price, id, shop }) => {
 				<button
 					className={cl.btn}
 					onClick={() => {
-						dispatch(addProductToCart({ id, name, price, quantity: 1, shopId: shop.id, shopName: shop.name }))
+						dispatch(addProductToCart({ product: id, quantity: 1, name, price, shop }))
 					}}
 				>
 					Add to cart

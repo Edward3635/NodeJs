@@ -9,7 +9,7 @@ export class ShopService {
 	constructor(@InjectModel(Shop.name) private shopModel: Model<Shop>) {}
 
 	async createShop(dto: CreateShopDto) {
-		const newShop = new this.shopModel(dto)
+		const newShop = new this.shopModel(dto)//!! validate
 		return newShop.save()
 	}
 

@@ -13,7 +13,7 @@ export const shoppingSlice = createSlice({
 	initialState,
 	reducers: {
 		addProductToCart(state, action) {
-			const existingIndex = state.shoppingCart.findIndex(item => item.id === action.payload.id)
+			const existingIndex = state.shoppingCart.findIndex(item => item.product === action.payload.product)
 			if (existingIndex !== -1) {
 				state.shoppingCart[existingIndex].quantity++
 			} else {
