@@ -5,13 +5,12 @@ import { validationSchema } from '../../../services/validation'
 import cl from './Shopping.module.scss'
 import CartItem from './CartItem/CartItem'
 import { calcTotal, submitForm } from '../../../redux/shoppingSlice'
-import { useNavigate } from 'react-router-dom'
-import { setActivePage } from '../../../redux/appSlice'
+import { setActivePage, setGlobalMessage } from '../../../redux/appSlice'
 
 const Shopping = () => {
 	const cart = useSelector(state => state.shopping.shoppingCart)
 	const totalPrice = useSelector(state => state.shopping.totalPrice)
-	const navigate = useNavigate()
+	const isOrderSubmitted = useSelector(state => state.shopping.isOrderSubmitted)
 	const dispatch = useDispatch()
 	const cartList = cart.map(item => (
 		<CartItem key={item.product} name={item.name} price={item.price} quantity={item.quantity} />
@@ -30,11 +29,16 @@ const Shopping = () => {
 			keysToDelete.forEach(key => delete orderItem[key])
 			return orderItem
 		})
-		values.phone = '+38' + values.phone
-		dispatch(submitForm({ userData: values, order }))
-		navigate('/')
-		dispatch(setActivePage('Shop'))
+		dispatch(submitForm({ userData: { ...values, phone: '+38' + values.phone }, order }))
 	}
+
+	useEffect(() => {
+		if (isOrderSubmitted === true) {
+			dispatch(setGlobalMessage('Order submitted'))
+			dispatch(setActivePage('Shop'))
+		}
+	}, [isOrderSubmitted])
+
 	useEffect(() => {
 		dispatch(setActivePage('Shopping'))
 	}, [])
@@ -51,7 +55,9 @@ const Shopping = () => {
 						<div className={cl.formContainer}>
 							<div className={cl.personalData}>
 								<div className={cl.errLabel}>
-									<label>Name:</label>
+									<label>
+										Name<span className={cl.redStar}>*</span>
+									</label>
 									{errors.name && touched.name ? <div className={cl.error}>{errors.name}</div> : null}
 								</div>
 								<Field
@@ -61,17 +67,21 @@ const Shopping = () => {
 									placeholder='Name'
 								/>
 								<div className={cl.errLabel}>
-									<label>Email:</label>
+									<label>
+										Email<span className={cl.redStar}>*</span>
+									</label>
 									{errors.email && touched.email ? <div className={cl.error}>{errors.email}</div> : null}
 								</div>
 								<Field
 									type='email'
 									name='email'
 									className={`${cl.input} ${errors.email && touched.email ? cl.inputError : null}`}
-									placeholder='Email'
+									placeholder='Example@gmail.com'
 								/>
 								<div className={cl.errLabel}>
-									<label>Phone:</label>
+									<label>
+										Phone<span className={cl.redStar}>*</span>
+									</label>
 									{errors.phone && touched.phone ? <div className={cl.error}>{errors.phone}</div> : null}
 								</div>
 								<div className={cl.phoneNumberWrapper}>
@@ -84,7 +94,9 @@ const Shopping = () => {
 									/>
 								</div>
 								<div className={cl.errLabel}>
-									<label>Address:</label>
+									<label>
+										Address<span className={cl.redStar}>*</span>
+									</label>
 									{errors.address && touched.address ? <div className={cl.error}>{errors.address}</div> : null}
 								</div>
 								<Field
@@ -103,9 +115,9 @@ const Shopping = () => {
 						<div className={cl.total}>
 							<h3>Total price: {totalPrice}</h3>
 							<button
-								disabled={!(isValid && dirty)}
+								disabled={!(isValid && dirty && cart.length)}
 								type='submit'
-								className={`${cl.btn} ${!(isValid && dirty) ? cl.disabled : cl.enabled}`}
+								className={`${cl.btn} ${!(isValid && dirty && cart.length) ? cl.disabled : cl.enabled}`}
 							>
 								Submit
 							</button>

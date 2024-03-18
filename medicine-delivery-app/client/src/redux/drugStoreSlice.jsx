@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { drugStoreAPI } from '../api/api'
+import { setGlobalError } from './appSlice'
 
 const initialState = {
 	shops: [],
 	shopProducts: [],
 	currentShop: '',
-	isLoading: false,
-	isLoadingProducts: false,
-	error: ''
+	isLoadingPage: false,
+	isLoadingProducts: false
 }
 
 export const drugStoreSlice = createSlice({
@@ -29,27 +29,25 @@ export const drugStoreSlice = createSlice({
 			.addCase(getShops.fulfilled, (state, action) => {
 				state.shops = action.payload
 				state.currentShop = action.payload[0]._id
-				state.isLoading = false
+				state.isLoadingPage = false
 				state.error = ''
 			})
 			.addCase(getShops.pending, state => {
-				state.isLoading = true
+				state.isLoadingPage = true
 			})
 			.addCase(getShops.rejected, (state, action) => {
-				state.isLoading = false
+				state.isLoadingPage = false
 				state.error = action.payload
 			})
 			.addCase(getProductsByShop.fulfilled, (state, action) => {
 				state.shopProducts = action.payload
 				state.isLoadingProducts = false
-				state.error = ''
 			})
 			.addCase(getProductsByShop.pending, state => {
 				state.isLoadingProducts = true
 			})
 			.addCase(getProductsByShop.rejected, (state, action) => {
 				state.isLoadingProducts = false
-				state.error = action.payload
 			})
 	}
 })
@@ -59,10 +57,10 @@ export const { setShops, setError, updateCurrentShop } = drugStoreSlice.actions
 export const getShops = createAsyncThunk('getShops', async (_, thunkAPI) => {
 	try {
 		const response = await drugStoreAPI.getShops()
-		// localStorage.setItem('shops', response.data)
 		return response
 	} catch (e) {
-		return thunkAPI.rejectWithValue(e.response.data)
+		thunkAPI.dispatch(setGlobalError(e.response.data))
+		return thunkAPI.rejectWithValue()
 	}
 })
 
@@ -71,6 +69,7 @@ export const getProductsByShop = createAsyncThunk('getProductsByShop', async (sh
 		const response = await drugStoreAPI.getProductsByShop(`${shopId}`)
 		return response
 	} catch (e) {
-		return thunkAPI.rejectWithValue(e.response.data)
+		thunkAPI.dispatch(setGlobalError(e.response.data))
+		return thunkAPI.rejectWithValue()
 	}
 })

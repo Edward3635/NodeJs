@@ -10,7 +10,7 @@ const DrugStore = () => {
 	const dispatch = useDispatch()
 	const store = useSelector(state => state.drugStore.shops)
 	const products = useSelector(state => state.drugStore.shopProducts)
-	const isLoading = useSelector(state => state.drugStore.isLoading)
+	const isLoading = useSelector(state => state.drugStore.isLoadingPage)
 	const isLoadingProducts = useSelector(state => state.drugStore.isLoadingProducts)
 	const currentShop = useSelector(state => state.drugStore.currentShop)
 	const shopList = store.map(shop => (

@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { drugStoreAPI } from '../api/api'
+import { setGlobalError } from './appSlice'
 
 const initialState = {
 	shoppingCart: [],
 	totalPrice: 0,
-	isLoading: false,
-	error: ''
+	isOrderSubmitted: false,
+	isLoading: false
 }
 
 export const shoppingSlice = createSlice({
@@ -40,6 +41,9 @@ export const shoppingSlice = createSlice({
 			state.totalPrice = state.shoppingCart.reduce((total, product) => {
 				return total + product.price * product.quantity
 			}, 0)
+		},
+		toggleIsOrderSubmitted(state,action) {
+			state.isOrderSubmitted = action.payload
 		}
 	},
 	extraReducers: builder => {
@@ -47,19 +51,19 @@ export const shoppingSlice = createSlice({
 			.addCase(submitForm.fulfilled, state => {
 				state.shoppingCart = []
 				state.isLoading = false
-				state.error = ''
+				state.isOrderSubmitted = true
 			})
 			.addCase(submitForm.pending, state => {
 				state.isLoading = true
 			})
 			.addCase(submitForm.rejected, (state, action) => {
 				state.isLoading = false
-				state.error = action.payload
 			})
 	}
 })
 export default shoppingSlice.reducer
-export const { addProductToCart, incrementQuantity, decrementQuantity, calcTotal } = shoppingSlice.actions
+export const { addProductToCart, incrementQuantity, decrementQuantity, calcTotal, toggleIsOrderSubmitted } =
+	shoppingSlice.actions
 
 export const submitForm = createAsyncThunk('submitForm', async (payload, thunkAPI) => {
 	try {
@@ -67,6 +71,7 @@ export const submitForm = createAsyncThunk('submitForm', async (payload, thunkAP
 		// localStorage.setItem('orderData', response.data.accessToken)
 		return response
 	} catch (e) {
-		return thunkAPI.rejectWithValue(e.response.data)
+		thunkAPI.dispatch(setGlobalError(e.response.data))
+		return thunkAPI.rejectWithValue()
 	}
 })

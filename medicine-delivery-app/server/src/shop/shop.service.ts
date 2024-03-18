@@ -9,7 +9,9 @@ export class ShopService {
 	constructor(@InjectModel(Shop.name) private shopModel: Model<Shop>) {}
 
 	async createShop(dto: CreateShopDto) {
-		const newShop = new this.shopModel(dto)//!! validate
+		const isExistShop = await this.shopModel.findOne({ name: dto.name })
+		if (isExistShop)  throw new HttpException('Shop name already exist', HttpStatus.BAD_REQUEST)
+		const newShop = new this.shopModel(dto)
 		return newShop.save()
 	}
 

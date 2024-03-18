@@ -15,6 +15,7 @@ export class OrderService {
 	) {}
 
 	async createOrder(dto: CreateOrderDto) {
+		if (!dto.order) throw new HttpException('Missing order parameter', HttpStatus.BAD_REQUEST)
 		const isExistProducts = await Promise.all(
 			dto.order.map(async order => {
 				if (!mongoose.Types.ObjectId.isValid(order.product)) return null
