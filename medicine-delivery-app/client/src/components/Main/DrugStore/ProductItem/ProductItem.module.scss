@@ -8,11 +8,22 @@
 	}
 
 	.img {
+		position: relative;
 		width: 200px;
 		height: 100px;
 		background-color: red;
 		border-radius: 7px;
 		margin-bottom: 20px;
+
+		.star {
+			position: absolute;
+			font-size: 36px;
+			right: 5px;
+			top: 0;
+			&:hover {
+				cursor: pointer;
+			}
+		}
 	}
 
 	.btnWrapper {

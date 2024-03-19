@@ -13,6 +13,9 @@ export const shoppingSlice = createSlice({
 	name: 'shopping',
 	initialState,
 	reducers: {
+		setShoppingCart(state, action) {
+			state.shoppingCart = action.payload
+		},
 		addProductToCart(state, action) {
 			const existingIndex = state.shoppingCart.findIndex(item => item.product === action.payload.product)
 			if (existingIndex !== -1) {
@@ -35,6 +38,7 @@ export const shoppingSlice = createSlice({
 			if (findProduct.quantity === 0) {
 				const index = state.shoppingCart.indexOf(findProduct)
 				state.shoppingCart.splice(index, 1)
+				// if (!state.shoppingCart.length) state.shoppingCart = null
 			}
 		},
 		calcTotal(state) {
@@ -42,7 +46,7 @@ export const shoppingSlice = createSlice({
 				return total + product.price * product.quantity
 			}, 0)
 		},
-		toggleIsOrderSubmitted(state,action) {
+		toggleIsOrderSubmitted(state, action) {
 			state.isOrderSubmitted = action.payload
 		}
 	},
@@ -62,8 +66,14 @@ export const shoppingSlice = createSlice({
 	}
 })
 export default shoppingSlice.reducer
-export const { addProductToCart, incrementQuantity, decrementQuantity, calcTotal, toggleIsOrderSubmitted } =
-	shoppingSlice.actions
+export const {
+	setShoppingCart,
+	addProductToCart,
+	incrementQuantity,
+	decrementQuantity,
+	calcTotal,
+	toggleIsOrderSubmitted
+} = shoppingSlice.actions
 
 export const submitForm = createAsyncThunk('submitForm', async (payload, thunkAPI) => {
 	try {

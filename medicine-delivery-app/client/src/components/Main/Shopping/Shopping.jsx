@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik'
 import { validationSchema } from '../../../services/validation'
 import cl from './Shopping.module.scss'
 import CartItem from './CartItem/CartItem'
-import { calcTotal, submitForm } from '../../../redux/shoppingSlice'
+import { calcTotal, setShoppingCart, submitForm } from '../../../redux/shoppingSlice'
 import { setActivePage, setGlobalMessage } from '../../../redux/appSlice'
 
 const Shopping = () => {
@@ -41,9 +41,14 @@ const Shopping = () => {
 
 	useEffect(() => {
 		dispatch(setActivePage('Shopping'))
+		const parsedCart = JSON.parse(localStorage.getItem('cart'))
+		if (parsedCart && parsedCart.length) {
+			dispatch(setShoppingCart(parsedCart))
+		}
 	}, [])
 
 	useEffect(() => {
+		localStorage.setItem('cart', JSON.stringify(cart))
 		dispatch(calcTotal())
 	}, [cart])
 

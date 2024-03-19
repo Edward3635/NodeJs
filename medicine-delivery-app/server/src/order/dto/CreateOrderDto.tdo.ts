@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { IsNotEmpty, IsNumber, IsPhoneNumber, IsString, ValidateNested } from 'class-validator'
+import { ArrayMinSize, IsArray, IsNotEmpty, IsNumber, IsPhoneNumber, IsString, ValidateNested } from 'class-validator'
 
 class UserData {
 	@IsNotEmpty()
@@ -35,6 +35,8 @@ export class CreateOrderDto {
 	userData: UserData
 
 	@ValidateNested({ each: true })
+	@IsArray()
+	@ArrayMinSize(1)
 	@Type(() => Order)
 	order: Order[]
 }
