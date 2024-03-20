@@ -12,11 +12,11 @@ const DrugStore = () => {
 	const products = useSelector(state => state.drugStore.shopProducts)
 	const isLoading = useSelector(state => state.drugStore.isLoadingPage)
 	const cart = useSelector(state => state.shopping.shoppingCart)
+	const totalPrice = useSelector(state => state.shopping.totalPrice)
 	const isLoadingProducts = useSelector(state => state.drugStore.isLoadingProducts)
 	const currentShop = useSelector(state => state.drugStore.currentShop)
 	const [favourite, setFavourite] = useState([])
 	const [sortBy, setSortBy] = useState('Default')
-
 	const shopList = store.map(shop => (
 		<ShopListItem key={shop.name} id={shop._id} name={shop.name} currentShop={currentShop} />
 	))
@@ -53,7 +53,7 @@ const DrugStore = () => {
 	}, [])
 
 	useEffect(() => {
-		dispatch(getProductsByShop(currentShop))
+		if (currentShop) dispatch(getProductsByShop(currentShop))
 	}, [currentShop])
 
 	useEffect(() => {
@@ -81,6 +81,7 @@ const DrugStore = () => {
 						<option value='PriceLowToHigh'>Sort by price &uarr;</option>
 						<option value='PriceHighToLow'>Sort by price &darr;</option>
 					</select>
+					<span className={cl.total}>Total price: {totalPrice} UAH</span>
 				</div>
 				<ul className={cl.productList}>{isLoadingProducts ? <div>Loading</div> : productList}</ul>
 			</section>

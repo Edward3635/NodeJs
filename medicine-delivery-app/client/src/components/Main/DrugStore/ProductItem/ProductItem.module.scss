@@ -1,25 +1,37 @@
 .item {
-	max-width: 233px;
+	background-color: white;
+	max-width: 236px;
 	padding: 15px;
-	border: 2px solid rgb(179, 140, 140);
-	border-radius: 7px;
+	border: 3px solid #deebfb;
+	border-radius: 15px;
+	transition: all 0.3s ease-in-out;
 	&:hover {
 		border-color: rgb(137, 137, 200);
 	}
 
 	.img {
 		position: relative;
-		width: 200px;
-		height: 100px;
-		background-color: red;
-		border-radius: 7px;
 		margin-bottom: 20px;
+		> img {
+			max-width: 200px;
+			border-radius: 10px;
+		}
 
-		.star {
+		.star,
+		.starActive {
 			position: absolute;
 			font-size: 36px;
 			right: 5px;
-			top: 0;
+			top: 7px;
+			transition: all 0.3s ease-in-out;
+		}
+		.star:hover {
+			cursor: pointer;
+			transition: all 0.3s ease-in-out;
+			color: #fff;
+		}
+		.starActive {
+			color: #fff;
 			&:hover {
 				cursor: pointer;
 			}
@@ -32,14 +44,14 @@
 		justify-content: space-between;
 		align-items: center;
 		.btn {
-			padding: 5px 20px;
-			border-radius: 10px;
-			background-color: rgb(142, 206, 133);
+			padding: 10px 20px;
+			border-radius: 7px;
+			background-color: #8aecb1;
 			font-size: 16px;
-			border: 2px solid rgb(152, 167, 152);
+			transition: all 0.3s ease-in-out;
 
 			&:hover {
-				transform: scale(1.03);
+				background-color: #ec6084;
 				color: white;
 			}
 

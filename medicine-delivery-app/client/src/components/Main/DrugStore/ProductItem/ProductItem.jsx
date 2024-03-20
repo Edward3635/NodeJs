@@ -1,7 +1,8 @@
 import React from 'react'
 import cl from './ProductItem.module.scss'
 import { useDispatch } from 'react-redux'
-import { addProductToCart } from '../../../../redux/shoppingSlice'
+import { addProductToCart, calcTotal } from '../../../../redux/shoppingSlice'
+import image from '../../../../img/medicinesBG.jpg'
 
 const ProductItem = ({ name, price, id, shop, favourite, setFavourite }) => {
 	const dispatch = useDispatch()
@@ -13,7 +14,8 @@ const ProductItem = ({ name, price, id, shop, favourite, setFavourite }) => {
 	return (
 		<li className={cl.item}>
 			<div className={cl.img}>
-				<div onClick={() => toggleFavProduct(id)} className={cl.star}>
+				<img src={image} alt='medicines' />
+				<div onClick={() => toggleFavProduct(id)} className={`${favourite.includes(id) ? cl.starActive : cl.star}`}>
 					{favourite.includes(id) ? '\u2605' : '\u2606'}
 				</div>
 			</div>
@@ -24,6 +26,7 @@ const ProductItem = ({ name, price, id, shop, favourite, setFavourite }) => {
 					className={cl.btn}
 					onClick={() => {
 						dispatch(addProductToCart({ product: id, quantity: 1, name, price, shop }))
+						dispatch(calcTotal())
 					}}
 				>
 					Add to cart

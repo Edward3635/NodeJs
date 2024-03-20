@@ -10,11 +10,16 @@ class UserData {
 	email: string
 	@IsNotEmpty()
 	@IsString()
-	@IsPhoneNumber()
+	@IsPhoneNumber('UA', {
+		message: 'Invalid Ukrainian phone number, example:0995654336'
+	})
 	phone: string
 	@IsNotEmpty()
 	@IsString()
 	address: string
+	@IsNotEmpty()
+	@IsNumber()
+	totalPrice: number
 }
 
 class Order {

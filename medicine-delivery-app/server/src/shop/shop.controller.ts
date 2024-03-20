@@ -18,7 +18,7 @@ export class ShopController {
 		return this.shopService.removeShop(id)
 	}
 
-	@Get()
+	@Get('/all')
 	getAll() {
 		return this.shopService.getAllShops()
 	}

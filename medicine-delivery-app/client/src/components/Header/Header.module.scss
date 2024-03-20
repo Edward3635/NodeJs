@@ -9,17 +9,28 @@
 		.listItem {
 			max-width: 115px;
 			text-align: center;
-			padding: 0 1px;
 			font-size: 18px;
+			transition: all 0.3s ease-in-out;
+			border-bottom: 2px solid transparent;
+			font-weight: 700;
+			&:hover {
+				border-bottom: 2px solid #ec6084;
+			}
 			> a {
-				color: #0095ff;
+				color: #000;
 			}
 		}
 		.activeLink {
-			text-decoration: underline;
-			color: #0095ff;
-			font-weight: 600;
-			padding: 0;
+			transition: all 0.3s ease-in-out;
+			&:hover {
+				border-bottom: 2px solid transparent;
+			}
+
+			> a {
+				cursor: default;
+				color: #ec6084;
+				// border-bottom: 2px solid transparent;
+			}
 		}
 
 		.itemBorder {

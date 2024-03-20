@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
-import { validationSchema } from '../../../services/validation'
 import cl from './Shopping.module.scss'
 import CartItem from './CartItem/CartItem'
 import { calcTotal, setShoppingCart, submitForm } from '../../../redux/shoppingSlice'
 import { setActivePage, setGlobalMessage } from '../../../redux/appSlice'
+import { validationShoppingSchema } from '../../../services/shoppingValidation'
 
 const Shopping = () => {
 	const cart = useSelector(state => state.shopping.shoppingCart)
@@ -29,7 +29,8 @@ const Shopping = () => {
 			keysToDelete.forEach(key => delete orderItem[key])
 			return orderItem
 		})
-		dispatch(submitForm({ userData: { ...values, phone: '+38' + values.phone }, order }))
+		values.totalPrice = totalPrice
+		dispatch(submitForm({ userData: values, order }))
 	}
 
 	useEffect(() => {
@@ -54,7 +55,7 @@ const Shopping = () => {
 
 	return (
 		<section>
-			<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+			<Formik initialValues={initialValues} validationSchema={validationShoppingSchema} onSubmit={handleSubmit}>
 				{({ errors, touched, isValid, dirty }) => (
 					<Form>
 						<div className={cl.formContainer}>
@@ -114,7 +115,7 @@ const Shopping = () => {
 							{cartList.length ? (
 								<div className={cl.products}>{cartList}</div>
 							) : (
-								<div className={cl.emptyProducts}>There are no items yet...</div>
+								<div className={cl.emptyProducts}>There is no items yet...</div>
 							)}
 						</div>
 						<div className={cl.total}>

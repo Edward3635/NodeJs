@@ -3,6 +3,7 @@
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	.personalData {
+		background-color: #fff;
 		max-width: 500px;
 		padding: 25px 100px 30px 25px;
 		border: 2px solid grey;
@@ -50,14 +51,13 @@
 	.products {
 		border: 2px solid gray;
 		width: fit-content;
-		justify-content: center;
 		border-radius: 7px;
 		padding: 15px 20px;
 		max-height: 450px;
 		overflow-y: auto;
-		display: grid;
+		display: flex;
+		flex-direction: column;
 		gap: 20px;
-		grid-template-columns: repeat(1, 1fr);
 	}
 }
 

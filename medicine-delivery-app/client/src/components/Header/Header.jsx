@@ -8,7 +8,7 @@ const Header = () => {
 	const activeLink = useSelector(state => state.app.activePage)
 	const dispatch = useDispatch()
 	return (
-		<nav className={cl.header}>
+		<header className={cl.header}>
 			<ul className={cl.headerList}>
 				<li className={`${cl.listItem} ${activeLink === 'Shop' && cl.activeLink}`}>
 					<NavLink
@@ -34,7 +34,7 @@ const Header = () => {
 				<li className={cl.itemBorder}></li>
 				<li className={`${cl.listItem} ${activeLink === 'History' && cl.activeLink}`}>
 					<NavLink
-						to='/History'
+						to='/history'
 						onClick={() => {
 							dispatch(setActivePage('History'))
 						}}
@@ -43,7 +43,7 @@ const Header = () => {
 					</NavLink>
 				</li>
 			</ul>
-		</nav>
+		</header>
 	)
 }
 

@@ -4,19 +4,20 @@
 	padding-bottom: 25px;
 
 	.aside {
+		background-color: #fff;
 		flex-grow: 1;
 		max-width: 240px;
 		overflow-y: auto;
-		max-height: 550px;
+		height: 550px;
 		padding: 20px 0;
-		border: 2px solid gray;
-		border-radius: 7px;
+		border-radius: 15px;
 		font-size: 20px;
 
 		.asideTitle {
+			text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
 			text-align: center;
 			font-weight: 600;
-			margin-bottom: 10px;
+			margin-bottom: 25px;
 		}
 
 		.shopList {
@@ -27,18 +28,20 @@
 		}
 	}
 	.secProducts {
+		background-color: #fff;
 		flex-grow: 1;
 		max-width: 945px;
-		min-height: 550px;
-		border: 2px solid grey;
-		border-radius: 7px;
+		border-radius: 15px;
 		.selectSort {
-			border-bottom: 3px solid gray;
-			padding-bottom: 10px;
-			margin-bottom: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border-bottom: 3px solid #deebfb;
+			padding: 0 60px 10px;
+			margin: 10px 0;
 		}
 		.input {
-			margin: 10px 10px 0;
+			background-color: #8aecb1;
 			width: 20%;
 			border: 2px solid rgb(208, 207, 207);
 			padding: 10px;
@@ -47,12 +50,16 @@
 			&:hover {
 				cursor: pointer;
 			}
+			.total {
+				// display: inline-block;
+				float: right;
+			}
 		}
 
 		.productList {
 			padding: 15px 60px 30px;
 			overflow-y: auto;
-			max-height: 550px;
+			max-height: 470px;
 			display: grid;
 			align-items: baseline;
 			justify-content: space-between;

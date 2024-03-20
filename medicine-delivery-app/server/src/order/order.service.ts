@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { CreateOrderDto } from './dto/CreateOrderDto.tdo'
+import { CreateOrderDto } from './dto/CreateOrderDto.dto'
 import { InjectModel } from '@nestjs/mongoose'
 import { Order } from './order.model'
 import mongoose, { Model } from 'mongoose'
 import { Shop } from 'src/shop/shop.model'
 import { Product } from 'src/product/product.model'
+import { UserDataDto } from './dto/GetUserOrdersDto.dto'
 
 @Injectable()
 export class OrderService {
@@ -60,5 +61,18 @@ export class OrderService {
 		}
 
 		return order
+	}
+
+	async getOrdersByUser(dto: UserDataDto) {
+		const orders = await this.orderModel
+			.find(dto)
+			.populate('order.product', 'name price')
+			.populate('order.shop', 'name')
+
+		if (!orders || orders.length === 0) {
+			throw new HttpException('Orders were not found', HttpStatus.NOT_FOUND)
+		}
+
+		return orders
 	}
 }

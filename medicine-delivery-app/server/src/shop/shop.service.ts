@@ -10,7 +10,7 @@ export class ShopService {
 
 	async createShop(dto: CreateShopDto) {
 		const isExistShop = await this.shopModel.findOne({ name: dto.name })
-		if (isExistShop)  throw new HttpException('Shop name already exist', HttpStatus.BAD_REQUEST)
+		if (isExistShop) throw new HttpException('Shop name already exist', HttpStatus.BAD_REQUEST)
 		const newShop = new this.shopModel(dto)
 		return newShop.save()
 	}
@@ -26,11 +26,9 @@ export class ShopService {
 	}
 	async getProductsByShop(shopId: string) {
 		const isValidObjectId = mongoose.isValidObjectId(shopId)
-		if (!isValidObjectId) throw new HttpException('Invalid shopId', HttpStatus.BAD_REQUEST)
+		if (!isValidObjectId) throw new HttpException(`Invalid shopId ${shopId}`, HttpStatus.BAD_REQUEST)
 		const shop = await this.shopModel.findById(shopId).populate('products')
-		if (!shop) {
-			throw new HttpException('Shop was not found', HttpStatus.NOT_FOUND)
-		}
+		if (!shop) throw new HttpException('Shop was not found', HttpStatus.NOT_FOUND)
 		return shop.products
 	}
 }

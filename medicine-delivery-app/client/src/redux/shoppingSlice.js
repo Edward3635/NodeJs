@@ -60,7 +60,7 @@ export const shoppingSlice = createSlice({
 			.addCase(submitForm.pending, state => {
 				state.isLoading = true
 			})
-			.addCase(submitForm.rejected, (state, action) => {
+			.addCase(submitForm.rejected, state => {
 				state.isLoading = false
 			})
 	}
@@ -78,7 +78,6 @@ export const {
 export const submitForm = createAsyncThunk('submitForm', async (payload, thunkAPI) => {
 	try {
 		const response = await drugStoreAPI.submit(payload)
-		// localStorage.setItem('orderData', response.data.accessToken)
 		return response
 	} catch (e) {
 		thunkAPI.dispatch(setGlobalError(e.response.data))
