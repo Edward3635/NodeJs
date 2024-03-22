@@ -21,7 +21,7 @@ const ProductItem = ({ name, price, id, shop, favourite, setFavourite }) => {
 			</div>
 			<h3>{name}</h3>
 			<div className={cl.btnWrapper}>
-				<div>{price} UAH</div>
+				<div>{price}₴</div>
 				<button
 					className={cl.btn}
 					onClick={() => {

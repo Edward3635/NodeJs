@@ -57,7 +57,7 @@ const DrugStore = () => {
 	}, [currentShop])
 
 	useEffect(() => {
-		localStorage.setItem('cart', JSON.stringify(cart))
+		if (!!cart.length) localStorage.setItem('cart', JSON.stringify(cart))
 	}, [cart])
 
 	if (isLoading) return <div>Loading...</div>
@@ -81,7 +81,7 @@ const DrugStore = () => {
 						<option value='PriceLowToHigh'>Sort by price &uarr;</option>
 						<option value='PriceHighToLow'>Sort by price &darr;</option>
 					</select>
-					<span className={cl.total}>Total price: {totalPrice} UAH</span>
+					<span className={cl.total}>Total price: {totalPrice}₴</span>
 				</div>
 				<ul className={cl.productList}>{isLoadingProducts ? <div>Loading</div> : productList}</ul>
 			</section>

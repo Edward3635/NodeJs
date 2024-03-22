@@ -42,6 +42,17 @@ const Header = () => {
 						History
 					</NavLink>
 				</li>
+				<li className={cl.itemBorder}></li>
+				<li className={`${cl.listItem} ${activeLink === 'Coupons' && cl.activeLink}`}>
+					<NavLink
+						to='/coupons'
+						onClick={() => {
+							dispatch(setActivePage('Coupons'))
+						}}
+					>
+						Coupons
+					</NavLink>
+				</li>
 			</ul>
 		</header>
 	)

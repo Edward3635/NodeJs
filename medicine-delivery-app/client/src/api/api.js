@@ -21,5 +21,10 @@ export const drugStoreAPI = {
 	async getUserOrders(userData) {
 		const response = await instance.get('orders/byUser', { params: userData })
 		return response.data
+	},
+
+	async getCoupons() {
+		const response = await instance.get('coupons')
+		return response.data
 	}
 }

@@ -8,8 +8,8 @@
 		flex-grow: 1;
 		max-width: 240px;
 		overflow-y: auto;
-		height: 550px;
-		padding: 20px 0;
+		height: 525px;
+		padding: 25px 0;
 		border-radius: 15px;
 		font-size: 20px;
 
@@ -58,13 +58,25 @@
 
 		.productList {
 			padding: 15px 60px 30px;
-			overflow-y: auto;
-			max-height: 470px;
+			overflow-y: scroll;
+			max-height: 450px;
 			display: grid;
 			align-items: baseline;
 			justify-content: space-between;
 			row-gap: 20px;
 			grid-template-columns: repeat(3, 0fr);
+
+			&::-webkit-scrollbar {
+				width: 15px;
+			}
+			&::-webkit-scrollbar-track {
+				// background-color: #e4e4e4;
+				border-radius: 10px;
+			}
+			&::-webkit-scrollbar-thumb {
+				background-color: #d8d1fa;
+				border-radius: 10px;
+			}
 		}
 	}
 }

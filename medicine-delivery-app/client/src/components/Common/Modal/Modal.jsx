@@ -29,11 +29,14 @@ const Modal = ({ error, message }) => {
 			<div className={cl.modal}>
 				{!!error.length ? (
 					<div className={cl.errorBody}>
-						<h1>Something went wrong</h1>
+						<h1 className={cl.errorTitle}>Something went wrong</h1>
 						{errorList}
 					</div>
 				) : (
-					<h1>{message}</h1>
+					<div>
+						<h1 className={cl.messageTitle}>{message.title}</h1>
+						<div className={cl.messageBody}>{message.body}</div>
+					</div>
 				)}
 				<button className={cl.btnClose} onClick={closeModal}>
 					Confirm

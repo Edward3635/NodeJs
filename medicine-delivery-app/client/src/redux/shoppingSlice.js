@@ -5,6 +5,7 @@ import { setGlobalError } from './appSlice'
 const initialState = {
 	shoppingCart: [],
 	totalPrice: 0,
+	lastOrderId:'',
 	isOrderSubmitted: false,
 	isLoading: false
 }
@@ -38,7 +39,6 @@ export const shoppingSlice = createSlice({
 			if (findProduct.quantity === 0) {
 				const index = state.shoppingCart.indexOf(findProduct)
 				state.shoppingCart.splice(index, 1)
-				// if (!state.shoppingCart.length) state.shoppingCart = null
 			}
 		},
 		calcTotal(state) {
@@ -52,7 +52,8 @@ export const shoppingSlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(submitForm.fulfilled, state => {
+			.addCase(submitForm.fulfilled, (state, action) => {
+				state.lastOrderId = action.payload._id
 				state.shoppingCart = []
 				state.isLoading = false
 				state.isOrderSubmitted = true

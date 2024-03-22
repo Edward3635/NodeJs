@@ -1,11 +1,64 @@
 .main {
-	margin-top: 70px;
 	display: flex;
-	gap: 100px;
+	gap: 40px;
 
 	> .orderHistory {
-		border: 2px solid gray;
-		border-radius: 7px;
+		position: relative;
+		min-height: 500px;
+		max-width: 880px;
+		background-color: #fff;
+		border-radius: 15px;
 		flex-grow: 1;
+		.title {
+			border-bottom: 3px solid #deebfb;
+			text-align: center;
+			padding: 15px 0 10px;
+			font-weight: 600;
+			font-size: 20px;
+			font-style: italic;
+		}
+		.historyBody {
+			padding: 15px 5px 15px 20px;
+			max-height: 452px;
+			overflow-y: scroll;
+			> div:not(:last-child) {
+				margin-bottom: 15px;
+			}
+			// display: flex;
+			// row-gap: 20px;
+			// align-items: baseline;
+			// justify-items: center;
+			// grid-template-columns: repeat(1, minmax(0, 1fr));
+			&::-webkit-scrollbar {
+				width: 15px;
+			}
+			&::-webkit-scrollbar-track {
+				// background-color: #e4e4e4;
+				border-radius: 10px;
+			}
+			&::-webkit-scrollbar-thumb {
+				background-color: #d8d1fa;
+				border-radius: 10px;
+			}
+		}
+		.emptyOrders {
+			> span {
+				position: absolute;
+				top: 50%;
+				left: 0;
+				transform: translateY(-50%);
+				width: 100%;
+				text-align: center;
+				font-size: 32px;
+				font-style: italic;
+				transition: all 0.4s ease-in-out;
+				font-weight: 800;
+				&:hover {
+					transition: all 0.4s ease-in-out;
+					color: #ec6084;
+					cursor: default;
+				}
+			}
+		}
 	}
 }

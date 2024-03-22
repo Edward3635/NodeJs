@@ -19,8 +19,6 @@ export class OrderController {
 
 	@Get('/byUser')
 	async getOrdersByUser(@Query() dto: UserDataDto) {
-		console.log(dto)
-
 		return this.orderService.getOrdersByUser(dto)
 	}
 

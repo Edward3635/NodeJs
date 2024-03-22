@@ -11,6 +11,7 @@ const Shopping = () => {
 	const cart = useSelector(state => state.shopping.shoppingCart)
 	const totalPrice = useSelector(state => state.shopping.totalPrice)
 	const isOrderSubmitted = useSelector(state => state.shopping.isOrderSubmitted)
+	const lastOrderId = useSelector(state => state.shopping.lastOrderId)
 	const dispatch = useDispatch()
 	const cartList = cart.map(item => (
 		<CartItem key={item.product} name={item.name} price={item.price} quantity={item.quantity} />
@@ -35,7 +36,12 @@ const Shopping = () => {
 
 	useEffect(() => {
 		if (isOrderSubmitted === true) {
-			dispatch(setGlobalMessage('Order submitted'))
+			dispatch(
+				setGlobalMessage({
+					title: 'Order submitted',
+					body: `Thanks for choosing our store! The order will be processed soon. Your order ID: ${lastOrderId}`
+				})
+			)
 			dispatch(setActivePage('Shop'))
 		}
 	}, [isOrderSubmitted])
@@ -54,7 +60,7 @@ const Shopping = () => {
 	}, [cart])
 
 	return (
-		<section>
+		<main>
 			<Formik initialValues={initialValues} validationSchema={validationShoppingSchema} onSubmit={handleSubmit}>
 				{({ errors, touched, isValid, dirty }) => (
 					<Form>
@@ -112,14 +118,21 @@ const Shopping = () => {
 									placeholder='Address'
 								/>
 							</div>
-							{cartList.length ? (
-								<div className={cl.products}>{cartList}</div>
-							) : (
-								<div className={cl.emptyProducts}>There is no items yet...</div>
-							)}
+							<section className={cl.secProducts}>
+								<div className={cl.title}>
+									<span>Shopping Cart</span>
+								</div>
+								{cartList.length ? (
+									<div className={cl.products}>{cartList}</div>
+								) : (
+									<div className={`${cl.products} ${cl.emptyProducts}`}>
+										<span>There is no items yet...</span>
+									</div>
+								)}
+							</section>
 						</div>
 						<div className={cl.total}>
-							<h3>Total price: {totalPrice}</h3>
+							<h3>Total price: {totalPrice}₴</h3>
 							<button
 								disabled={!(isValid && dirty && cart.length)}
 								type='submit'
@@ -131,7 +144,7 @@ const Shopping = () => {
 					</Form>
 				)}
 			</Formik>
-		</section>
+		</main>
 	)
 }
 
