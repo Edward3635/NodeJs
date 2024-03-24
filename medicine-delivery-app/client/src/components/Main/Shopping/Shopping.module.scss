@@ -20,6 +20,39 @@
 			display: flex;
 			gap: 3px;
 		}
+		.promoCode {
+			margin-bottom: 15px;
+		}
+		.couponBlock {
+			display: flex;
+			align-items: center;
+			> button {
+				padding: 10px 20px;
+				border-top-right-radius: 2px;
+				border-bottom-right-radius: 2px;
+				color: #fff;
+				border-left: none;
+				background-color: hsl(144, 72%, 73%);
+				transition: all 0.3s ease-in-out;
+				font-size: 18px;
+				&:hover {
+					color: #000;
+				}
+				&:active {
+					transition: transform 0.1s ease;
+					transform: translateX(-1%);
+				}
+			}
+			> input {
+				width: unset;
+				flex-grow: 1;
+				margin: 0;
+				border-top-right-radius: unset;
+				border-bottom-right-radius: unset;
+				border-right: none;
+			}
+		}
+
 		.redStar {
 			color: red;
 		}
@@ -59,6 +92,12 @@
 			font-style: italic;
 		}
 
+		.loader {
+			margin-top: 200px;
+			text-align: center;
+			font-size: 30px;
+		}
+
 		.products {
 			padding: 15px 5px 15px 20px;
 			max-height: 450px;
@@ -84,6 +123,7 @@
 		.emptyProducts {
 			display: block;
 			text-align: center;
+			overflow-y: unset;
 			padding: 175px 0 0 0;
 			> span {
 				font-size: 32px;

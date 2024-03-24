@@ -60,7 +60,7 @@ const DrugStore = () => {
 		if (!!cart.length) localStorage.setItem('cart', JSON.stringify(cart))
 	}, [cart])
 
-	if (isLoading) return <div>Loading...</div>
+	if (isLoading || !products.length) return <div className={cl.globalLoader}>Loading...</div>
 
 	return (
 		<main className={cl.main}>
@@ -83,7 +83,12 @@ const DrugStore = () => {
 					</select>
 					<span className={cl.total}>Total price: {totalPrice}₴</span>
 				</div>
-				<ul className={cl.productList}>{isLoadingProducts ? <div>Loading</div> : productList}</ul>
+
+				{isLoadingProducts ? (
+					<div className={cl.loader}>Loading...</div>
+				) : (
+					<ul className={cl.productList}>{productList}</ul>
+				)}
 			</section>
 		</main>
 	)

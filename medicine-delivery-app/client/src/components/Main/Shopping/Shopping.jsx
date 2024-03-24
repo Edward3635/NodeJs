@@ -12,6 +12,7 @@ const Shopping = () => {
 	const totalPrice = useSelector(state => state.shopping.totalPrice)
 	const isOrderSubmitted = useSelector(state => state.shopping.isOrderSubmitted)
 	const lastOrderId = useSelector(state => state.shopping.lastOrderId)
+	const isLoading = useSelector(state => state.shopping.isLoading)
 	const dispatch = useDispatch()
 	const cartList = cart.map(item => (
 		<CartItem key={item.product} name={item.name} price={item.price} quantity={item.quantity} />
@@ -20,7 +21,8 @@ const Shopping = () => {
 		name: '',
 		email: '',
 		phone: '',
-		address: ''
+		address: '',
+		coupon: ''
 	}
 
 	const handleSubmit = values => {
@@ -117,13 +119,32 @@ const Shopping = () => {
 									className={`${cl.input} ${errors.address && touched.address ? cl.inputError : null}`}
 									placeholder='Address'
 								/>
+
+								<div className={cl.errLabel}>
+									<label className={cl.promoCode}>Promo code</label>
+									{errors.coupon && touched.coupon ? <div className={cl.error}>{errors.coupon}</div> : null}
+								</div>
+								<div className={cl.couponBlock}>
+									<Field
+										type='text'
+										name='coupon'
+										className={`${cl.input} ${errors.coupon && touched.coupon ? cl.inputError : null}`}
+										placeholder='Paste your promo code here'
+									/>
+									<button type='button'>Verify promo</button>
+								</div>
 							</div>
+
 							<section className={cl.secProducts}>
 								<div className={cl.title}>
 									<span>Shopping Cart</span>
 								</div>
 								{cartList.length ? (
-									<div className={cl.products}>{cartList}</div>
+									isLoading ? (
+										<div className={cl.loader}>Loading...</div>
+									) : (
+										<div className={cl.products}>{cartList}</div>
+									)
 								) : (
 									<div className={`${cl.products} ${cl.emptyProducts}`}>
 										<span>There is no items yet...</span>

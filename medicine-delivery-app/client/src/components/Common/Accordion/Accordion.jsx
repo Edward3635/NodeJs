@@ -23,7 +23,8 @@ export default function ControlledAccordions({ image, ...order }) {
 			image={image}
 		/>
 	))
-	const duplicateImg = Array.from({ length: order.order.length }, () => <img src={image} alt='medicines' />) //! remake on a photo from the server
+	//! remake on a photo from the server
+	const duplicateImg = Array.from({ length: order.order.length }, () => <img src={image} alt='medicines' />)
 
 	return (
 		<Accordion expanded={expanded === 'panel1'} sx={{ backgroundColor: '#8aecb1' }} onChange={handleChange('panel1')}>

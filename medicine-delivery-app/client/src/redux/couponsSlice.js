@@ -3,8 +3,8 @@ import { drugStoreAPI } from '../api/api'
 import { setGlobalError } from './appSlice'
 
 const initialState = {
-	coupons:[],
-	isLoadingPage:false
+	coupons: [],
+	isLoadingPage: false
 }
 
 export const couponsSlice = createSlice({
@@ -18,7 +18,7 @@ export const couponsSlice = createSlice({
 	extraReducers: builder => {
 		builder
 			.addCase(getCoupons.fulfilled, (state, action) => {
-				state.userOrders = action.payload
+				state.coupons = action.payload
 				state.isLoadingPage = false
 			})
 			.addCase(getCoupons.pending, state => {

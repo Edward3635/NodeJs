@@ -6,5 +6,6 @@ export const validationShoppingSchema = Yup.object().shape({
 	phone: Yup.string()
 		.matches(/^0\d{9}$/, 'Phone number must start with 0 and contain 10 digits')
 		.required('Required'),
-	address: Yup.string().required('Required')
+	address: Yup.string().required('Required'),
+	coupon: Yup.string()
 })

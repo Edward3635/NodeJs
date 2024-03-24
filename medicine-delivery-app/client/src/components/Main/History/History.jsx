@@ -9,6 +9,7 @@ import ControlledAccordions from '../../Common/Accordion/Accordion'
 const History = () => {
 	const dispatch = useDispatch()
 	const orders = useSelector(state => state.history.userOrders)
+	const isLoadingData = useSelector(state => state.history.isLoadingData)
 	const orderList = orders.map(order => <ControlledAccordions key={order._id} {...order} image={image} />)
 	useEffect(() => {
 		dispatch(setActivePage('History'))
@@ -21,7 +22,9 @@ const History = () => {
 				<div className={cl.title}>
 					<span>Order History</span>
 				</div>
-				{!!orders.length ? (
+				{isLoadingData ? (
+					<div className={cl.loader}>Loading...</div>
+				) : !!orders.length ? (
 					<div className={cl.historyBody}>{orderList}</div>
 				) : (
 					<div className={`$ ${cl.emptyOrders}`}>
