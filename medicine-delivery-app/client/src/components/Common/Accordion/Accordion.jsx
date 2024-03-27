@@ -32,7 +32,17 @@ export default function ControlledAccordions({ image, ...order }) {
 				<div className={cl.flex}>
 					<Typography style={{ fontWeight: 600 }}>#{order._id}</Typography>
 					<Typography className={cl.imgProductPreview}>{duplicateImg}</Typography>
-					<Typography style={{ fontWeight: 600 }}>Total price: {order.totalPrice}₴</Typography>
+					<Typography style={{ fontWeight: 600, display: 'flex', alignItems: 'flex-end', gap: 5 }}>
+						Total price:{' '}
+						{order.totalDiscountPrice ? (
+							<span className={cl.totalPriceContainer}>
+								<span className={cl.totalPrice}>{order.totalPrice}₴</span>
+								<span className={cl.totalDiscountPrice}>{order.totalDiscountPrice}₴</span>
+							</span>
+						) : (
+							`${order.totalPrice}₴`
+						)}
+					</Typography>
 				</div>
 			</AccordionSummary>
 			<AccordionDetails>

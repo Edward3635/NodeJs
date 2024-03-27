@@ -23,6 +23,8 @@ export class OrderService {
 				return existProduct
 			})
 		)
+		if (isExistProducts.includes(null)) throw new HttpException('Wrong product id', HttpStatus.BAD_REQUEST)
+
 		const isExistShops = await Promise.all(
 			dto.order.map(async order => {
 				if (!mongoose.Types.ObjectId.isValid(order.shop)) return null
@@ -31,7 +33,6 @@ export class OrderService {
 			})
 		)
 
-		if (isExistProducts.includes(null)) throw new HttpException('Wrong product id', HttpStatus.BAD_REQUEST)
 		if (isExistShops.includes(null)) throw new HttpException('Wrong shop id', HttpStatus.BAD_REQUEST)
 
 		try {

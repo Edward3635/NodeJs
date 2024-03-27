@@ -23,8 +23,14 @@ export class Order {
 	@Prop({ required: true })
 	address: string
 
+	@Prop()
+	coupon: string
+
 	@Prop({ required: true })
 	totalPrice: number
+
+	@Prop()
+	totalDiscountPrice: number
 
 	@Prop({
 		type: [

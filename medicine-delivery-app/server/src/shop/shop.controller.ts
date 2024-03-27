@@ -24,7 +24,7 @@ export class ShopController {
 	}
 
 	@Get('/:id')
-	async getProductByShopId(@Param('id') shopId: string) {
+	getProductByShopId(@Param('id') shopId: string) {
 		return this.shopService.getProductsByShop(shopId)
 	}
 }

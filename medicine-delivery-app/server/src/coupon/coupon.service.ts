@@ -1,8 +1,9 @@
+import { verifyCoupon } from './../../../client/src/redux/shoppingSlice'
 import { CreateCouponDto } from './dto/createCouponDto.dto'
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Coupon } from './coupon.model'
-import { Model } from 'mongoose'
+import mongoose, { Model } from 'mongoose'
 
 @Injectable()
 export class CouponService {
@@ -17,5 +18,21 @@ export class CouponService {
 
 	async getAll() {
 		return this.couponModel.find().exec()
+	}
+
+	async verifyCoupon(coupon: string) {
+		const isExistCoupon = await this.couponModel.findOne({ code: coupon }).select('name destination -_id')
+		if (!isExistCoupon) throw new HttpException(`The coupon doesn't exist or is no longer valid`, HttpStatus.NOT_FOUND)
+		return isExistCoupon
+	}
+
+	async removeCoupon(code: string) {
+		const removedCoupon = await this.couponModel.findOneAndDelete({ code })
+		if (!removedCoupon) throw new HttpException(`The coupon doesn't exist`, HttpStatus.NOT_FOUND)
+		return removedCoupon
+	}
+
+	async removeAll() {
+		return this.couponModel.deleteMany({})
 	}
 }

@@ -36,3 +36,15 @@
 	font-style: italic;
 	font-weight: 500;
 }
+
+.totalPriceContainer {
+	// display: flex;
+	// gap: 5px;
+	> .totalPrice {
+		text-decoration: line-through;
+		display: block;
+	}
+	> .totalDiscountPrice {
+		color: #f84147;
+	}
+}

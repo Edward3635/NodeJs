@@ -5,8 +5,10 @@ import { setGlobalError } from './appSlice'
 const initialState = {
 	shoppingCart: [],
 	totalPrice: 0,
-	lastOrderId:'',
+	totalDiscountPrice: 0,
+	lastOrderId: '',
 	isOrderSubmitted: false,
+	coupon: null,
 	isLoading: false
 }
 
@@ -45,9 +47,26 @@ export const shoppingSlice = createSlice({
 			state.totalPrice = state.shoppingCart.reduce((total, product) => {
 				return total + product.price * product.quantity
 			}, 0)
+
+			if (state.coupon) {
+				const percentageMatch = state.coupon.destination.match(/(\d+)% from order/)
+				if (percentageMatch) {
+					const discountPercentage = parseFloat(percentageMatch[1])
+					state.totalDiscountPrice = Math.round(state.totalPrice * (1 - discountPercentage / 100))
+					const fixedAmountMatch = state.coupon.destination.match(/(\d+)₴\+ from order/)
+					if (fixedAmountMatch) {
+						const fixedAmount = parseFloat(fixedAmountMatch[1])
+						state.totalDiscountPrice = Math.round(Math.max(state.totalDiscountPrice - fixedAmount, 0))
+					}
+				}
+			}
 		},
 		toggleIsOrderSubmitted(state, action) {
 			state.isOrderSubmitted = action.payload
+		},
+		clearCoupon(state) {
+			state.coupon = null
+			state.totalDiscountPrice = 0
 		}
 	},
 	extraReducers: builder => {
@@ -64,6 +83,16 @@ export const shoppingSlice = createSlice({
 			.addCase(submitForm.rejected, state => {
 				state.isLoading = false
 			})
+			.addCase(verifyCoupon.fulfilled, (state, action) => {
+				state.coupon = action.payload
+				state.isLoading = false
+			})
+			.addCase(verifyCoupon.pending, state => {
+				state.isLoading = true
+			})
+			.addCase(verifyCoupon.rejected, state => {
+				state.isLoading = false
+			})
 	}
 })
 export default shoppingSlice.reducer
@@ -73,12 +102,23 @@ export const {
 	incrementQuantity,
 	decrementQuantity,
 	calcTotal,
-	toggleIsOrderSubmitted
+	toggleIsOrderSubmitted,
+	clearCoupon
 } = shoppingSlice.actions
 
 export const submitForm = createAsyncThunk('submitForm', async (payload, thunkAPI) => {
 	try {
 		const response = await drugStoreAPI.submit(payload)
+		return response
+	} catch (e) {
+		thunkAPI.dispatch(setGlobalError(e.response.data))
+		return thunkAPI.rejectWithValue()
+	}
+})
+
+export const verifyCoupon = createAsyncThunk('verifyCoupon', async (payload, thunkAPI) => {
+	try {
+		const response = await drugStoreAPI.verifyCoupon(payload)
 		return response
 	} catch (e) {
 		thunkAPI.dispatch(setGlobalError(e.response.data))

@@ -26,5 +26,10 @@ export const drugStoreAPI = {
 	async getCoupons() {
 		const response = await instance.get('coupons/all')
 		return response.data
+	},
+
+	async verifyCoupon(coupon) {
+		const response = await instance.get(`coupons/verify/${coupon}`)
+		return response.data
 	}
 }

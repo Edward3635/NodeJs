@@ -13,17 +13,17 @@ export class OrderController {
 	}
 
 	@Get('/byShop/:id')
-	async getOrderByShopId(@Param('id') id: string) {
+	getOrderByShopId(@Param('id') id: string) {
 		return this.orderService.getOrderById(id)
 	}
 
 	@Get('/byUser')
-	async getOrdersByUser(@Query() dto: UserDataDto) {
+	getOrdersByUser(@Query() dto: UserDataDto) {
 		return this.orderService.getOrdersByUser(dto)
 	}
 
 	@Post('')
-	async createOrder(@Body() dto: CreateOrderDto) {
+	createOrder(@Body() dto: CreateOrderDto) {
 		return this.orderService.createOrder(dto)
 	}
 }

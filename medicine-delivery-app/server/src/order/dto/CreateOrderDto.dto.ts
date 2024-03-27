@@ -17,9 +17,14 @@ class UserData {
 	@IsNotEmpty()
 	@IsString()
 	address: string
+	@IsString()
+	coupon: string
 	@IsNotEmpty()
 	@IsNumber()
 	totalPrice: number
+
+	@IsNumber()
+	totalDiscountPrice: number
 }
 
 class Order {

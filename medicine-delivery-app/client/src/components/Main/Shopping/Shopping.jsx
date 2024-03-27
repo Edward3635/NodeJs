@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
 import cl from './Shopping.module.scss'
 import CartItem from './CartItem/CartItem'
-import { calcTotal, setShoppingCart, submitForm } from '../../../redux/shoppingSlice'
+import { calcTotal, clearCoupon, setShoppingCart, submitForm, verifyCoupon } from '../../../redux/shoppingSlice'
 import { setActivePage, setGlobalMessage } from '../../../redux/appSlice'
 import { validationShoppingSchema } from '../../../services/shoppingValidation'
 
 const Shopping = () => {
 	const cart = useSelector(state => state.shopping.shoppingCart)
 	const totalPrice = useSelector(state => state.shopping.totalPrice)
+	const totalDiscountPrice = useSelector(state => state.shopping.totalDiscountPrice)
+	const coupon = useSelector(state => state.shopping.coupon)
 	const isOrderSubmitted = useSelector(state => state.shopping.isOrderSubmitted)
 	const lastOrderId = useSelector(state => state.shopping.lastOrderId)
 	const isLoading = useSelector(state => state.shopping.isLoading)
@@ -24,6 +26,10 @@ const Shopping = () => {
 		address: '',
 		coupon: ''
 	}
+	const verifyPromo = value => {
+		if (!value) return
+		dispatch(verifyCoupon(value))
+	}
 
 	const handleSubmit = values => {
 		const keysToDelete = ['name', 'price']
@@ -33,6 +39,7 @@ const Shopping = () => {
 			return orderItem
 		})
 		values.totalPrice = totalPrice
+		if (!!totalDiscountPrice) values.totalDiscountPrice = totalDiscountPrice
 		dispatch(submitForm({ userData: values, order }))
 	}
 
@@ -49,6 +56,7 @@ const Shopping = () => {
 	}, [isOrderSubmitted])
 
 	useEffect(() => {
+		if (coupon) dispatch(clearCoupon())
 		dispatch(setActivePage('Shopping'))
 		const parsedCart = JSON.parse(localStorage.getItem('cart'))
 		if (parsedCart && parsedCart.length) {
@@ -59,12 +67,12 @@ const Shopping = () => {
 	useEffect(() => {
 		localStorage.setItem('cart', JSON.stringify(cart))
 		dispatch(calcTotal())
-	}, [cart])
+	}, [cart, coupon])
 
 	return (
 		<main>
 			<Formik initialValues={initialValues} validationSchema={validationShoppingSchema} onSubmit={handleSubmit}>
-				{({ errors, touched, isValid, dirty }) => (
+				{({ values, errors, touched, isValid, dirty }) => (
 					<Form>
 						<div className={cl.formContainer}>
 							<div className={cl.personalData}>
@@ -121,17 +129,37 @@ const Shopping = () => {
 								/>
 
 								<div className={cl.errLabel}>
-									<label className={cl.promoCode}>Promo code</label>
+									<label className={cl.promoCode}>
+										Promo code {coupon ? <span className={cl.couponName}>{coupon.name}</span> : null}
+									</label>
 									{errors.coupon && touched.coupon ? <div className={cl.error}>{errors.coupon}</div> : null}
 								</div>
 								<div className={cl.couponBlock}>
 									<Field
 										type='text'
+										disabled={coupon}
 										name='coupon'
 										className={`${cl.input} ${errors.coupon && touched.coupon ? cl.inputError : null}`}
 										placeholder='Paste your promo code here'
 									/>
-									<button type='button'>Verify promo</button>
+									{coupon ? (
+										<button
+											type='button'
+											className={`${cl.btnVerifyPromo} ${cl.btnRemovePromo} ${cl.verifyPromoBtnEnabled}`}
+											onClick={() => dispatch(clearCoupon())}
+										>
+											Remove
+										</button>
+									) : (
+										<button
+											type='button'
+											className={`${cl.btnVerifyPromo} ${!values.coupon ? cl.disabled : cl.verifyPromoBtnEnabled}`}
+											disabled={!values.coupon}
+											onClick={() => verifyPromo(values.coupon)}
+										>
+											Verify promo
+										</button>
+									)}
 								</div>
 							</div>
 
@@ -140,11 +168,7 @@ const Shopping = () => {
 									<span>Shopping Cart</span>
 								</div>
 								{cartList.length ? (
-									isLoading ? (
-										<div className={cl.loader}>Loading...</div>
-									) : (
-										<div className={cl.products}>{cartList}</div>
-									)
+									<div className={cl.products}>{cartList}</div>
 								) : (
 									<div className={`${cl.products} ${cl.emptyProducts}`}>
 										<span>There is no items yet...</span>
@@ -153,7 +177,18 @@ const Shopping = () => {
 							</section>
 						</div>
 						<div className={cl.total}>
-							<h3>Total price: {totalPrice}₴</h3>
+							{totalDiscountPrice ? (
+								<div className={cl.discount}>
+									<div className={cl.oldTotalPrice}>
+										<div>Total price: {totalPrice} </div>
+										<span>₴</span>
+									</div>
+									<span>Total price: </span>
+									<span className={cl.discountTotalPrice}> {totalDiscountPrice}₴</span>
+								</div>
+							) : (
+								<h3>Total price: {totalPrice}₴</h3>
+							)}
 							<button
 								disabled={!(isValid && dirty && cart.length)}
 								type='submit'
@@ -162,6 +197,11 @@ const Shopping = () => {
 								Submit
 							</button>
 						</div>
+						{isLoading && (
+							<div className={cl.pageLoader}>
+								<div className={cl.loaderContent}></div>
+							</div>
+						)}
 					</Form>
 				)}
 			</Formik>
